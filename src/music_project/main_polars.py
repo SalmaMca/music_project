@@ -7,7 +7,7 @@ def extract_date_from_path(file_name):
     Extract the date from the file path.
 
     Parameters:
-        list_file_name (list): A list of file paths.
+        file_name (list): A list of file paths.
 
     Returns:
         str: The extracted date from the file path.
@@ -18,7 +18,7 @@ def extract_date_from_path(file_name):
     file_name = os.path.basename(file_name)
     # Remove the file extension by splitting the file name and taking the first part
     no_ext_file = file_name.split(".")[0]
-    # Extract the date from the file name by splitting it based on underscores and taking the last part
+    # Extract the date from the file name by splitting it based on '-' and taking the last part
     final_date = no_ext_file.split("-")[-1]
     # Return the extracted date
     return final_date
@@ -45,7 +45,7 @@ def lazy_load(file_name):
     Load multiple CSV files lazily and concatenate the resulting lazy DataFrames.
 
     Args:
-        list_file_name (list): A list of file names of the CSV files to load.
+        file_name (list): A file name of the CSV file to load.
 
     Returns:
         pl.DataFrame: A lazy DataFrame obtained by concatenating the lazy DataFrames
@@ -98,13 +98,13 @@ def stack_transforms(lazy_dataframe, col_name, best_of):
 
 def lazy_format(lazy_dataframe, col_name):
     """
-    Groups the 'lazy_dataframe' by the 'first_col' column while maintaining the order.
+    Groups the 'lazy_dataframe' by the 'col_name' column while maintaining the order.
     Applies the 'reduce_save_udf' function to the 'sng_id' and 'stream_count' columns,
     and aliases the result as 'results'.
 
     Args:
         lazy_dataframe (pyspark.sql.DataFrame): The lazy dataframe to be grouped.
-        first_col (str): The name of the column to group by.
+        col_name (str): The name of the column to group by.
 
     Returns:
         pyspark.sql.DataFrame: The resulting dataframe with the grouped and aggregated data.
@@ -119,11 +119,11 @@ def lazy_format(lazy_dataframe, col_name):
 
 def lazy_transform(file_name, col_name, best_of=50, show_graph=True):
     """
-    Apply lazy transformation operations to a DataFrame loaded from a list of files.
+    Apply lazy transformation operations to a DataFrame loaded from a file.
 
     Args:
-        list_file_name (str): The name of the file or a list of file names to load the DataFrame from.
-        first_col (str): The name of the first column to use for transformation.
+        file_name (str): The name of the file to load the DataFrame from.
+        col_name (str): The name of the column to use for transformation.
         best_of (int, optional): The number of best records to select during transformation. Defaults to 50.
         show_graph (bool, optional): Flag indicating whether to display the execution graph. Defaults to True.
 
@@ -131,14 +131,12 @@ def lazy_transform(file_name, col_name, best_of=50, show_graph=True):
         tuple: A tuple containing the transformed DataFrame and the extracted date.
 
     Raises:
-        FileNotFoundError: If the specified file or files do not exist.
+        FileNotFoundError: If the specified file do not exist.
 
     Examples:
         # Load a DataFrame from a single file and apply lazy transformations
         dataframe, date = lazy_transform("data.csv", "country")
 
-        # Load a DataFrame from multiple files and apply lazy transformations
-        dataframe, date = lazy_transform(["data1.csv", "data2.csv"], "city", best_of=100, show_graph=False)
     """
     lazy_dataframe = lazy_load(file_name)
     lazy_dataframe = stack_transforms(lazy_dataframe, col_name, best_of)
@@ -161,7 +159,7 @@ def file_save(lazy_dataframe, output_folder, col_name, final_date):
     Args:
         lazy_dataframe (LazyDataFrame): A lazy dataframe object.
         output_folder (str): The folder path where the output file(s) will be saved.
-        first_col (str): The column name used for determining the file saving behavior. Valid values are "country" or "user_id".
+        col_name (str): The column name used for determining the file saving behavior. Valid values are "country" or "user_id".
         final_date (str): The final date used in the output file name.
 
     Returns:
@@ -187,10 +185,10 @@ def file_save(lazy_dataframe, output_folder, col_name, final_date):
 
 def main_transform(file_name, output_folder):
     """
-    Transforms the data from the given list of file names and saves the results to the specified output folder.
+    Transforms the data from the given file name and saves the results to the specified output folder.
 
     Args:
-        file_name (list): A list of file names to process.
+        file_name : A  file name to process.
         output_folder (str): The path to the output folder where the transformed data will be saved.
         low_memory (bool, optional): A flag indicating whether to activate low memory mode. Defaults to True.
 

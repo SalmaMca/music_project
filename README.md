@@ -33,9 +33,12 @@ The project contains 3 main scripts inside "src/music_project":
 
 The data is stored in a separate folder outside the project folder. Since we only have one day's worth of data. The main script takes a list of log files, the engine type (either Pandas or Polars), and an output path. The log files are loaded into memory, and then the requested transformations are applied. The final results are saved using the given output path. For this exercise, I decided to provide the solution using two frameworks: Pandas and Polars. Pandas is chosen because it is easier to use and debug, with a simple API. Polars, on the other hand, has a similar API to Pandas but is much faster. While Polars is a relatively new framework and there aren't many examples or evidence of it being used in production, this solution fits better within the performance constraints.
 
+# Data Quality
+
+
 
 # Performance
-starting
+
 
 ## Pandas
 
