@@ -7,7 +7,7 @@ def extract_date_from_path(file_name):
     Extract the date from the file path.
 
     Parameters:
-        file_name (list): A list of file paths.
+        file_name : A file path.
 
     Returns:
         str: The extracted date from the file path.
