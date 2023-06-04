@@ -5,8 +5,8 @@ import sys
 
 sys.path.append(".")
 sys.path.append("..")
-from music_project.main_pandas import main_transform as mt_pandas
-from music_project.main_polars import main_transform as mt_polars
+from src.music_project.main_pandas import main_transform as mt_pandas
+from src.music_project.main_polars import main_transform as mt_polars
 
 
 class MainTransformTestCase(unittest.TestCase):
@@ -21,38 +21,40 @@ class MainTransformTestCase(unittest.TestCase):
         )
 
         # Create a temporary output folder
-        self.output_folder = "output"
+        self.output_folder = "test_output"
         os.makedirs(self.output_folder, exist_ok=True)
-
+        self.data_name="sample_data-20230101.log"
+        self.user_data_name="users_top50_20230101.csv"
         # Save the sample data as CSV
         df.to_csv(
-            "./output/sample_data_20230101.log", index=False, header=False, sep="|"
+            f"./{self.output_folder}/{self.data_name}", index=False, header=False, sep="|"
         )
 
     def tearDown(self):
         # Clean up the temporary files and folders
-        os.remove("./output/sample_data_20230101.log")
+        os.remove(f"./{self.output_folder}/{self.data_name}")
 
     def test_main_transform_pandas(self):
-        file_name = "./output/sample_data_20230101.log"
+        file_name = f"./{self.output_folder}/{self.data_name}"
 
         # Call the function under test
         mt_pandas(file_name, self.output_folder)
 
+    
         # Assertions
         self.assertTrue(
-            os.path.exists(f"{self.output_folder}/users_top50_20230101.csv")
+            os.path.exists(f"{self.output_folder}/{self.user_data_name}")
         )
 
     def test_main_transform_polars(self):
-        file_name = "./output/sample_data_20230101.log"
+        file_name = f"./{self.output_folder}/{self.data_name}"
 
         # Call the function under test
         mt_polars(file_name, self.output_folder)
 
         # Assertions
         self.assertTrue(
-            os.path.exists(f"{self.output_folder}/users_top50_20230101.csv")
+            os.path.exists(f"{self.output_folder}/{self.user_data_name}")
         )
 
 
