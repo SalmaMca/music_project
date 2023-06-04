@@ -64,15 +64,13 @@ def extract_date_from_path(file_name):#cette fonction a pour but extraire la dat
     Extract the date from the file path.
 
     Parameters:
-        list_file_name (list): A list of file paths.
+      file_name : A  file path.
 
     Returns:
         str: The extracted date from the file path.
     """
 
-    # Get the latest file path from the sorted list
-   
-
+  
     # Extract the file name from the file path
     file_name = os.path.basename(file_name)
 
@@ -88,20 +86,19 @@ def extract_date_from_path(file_name):#cette fonction a pour but extraire la dat
 
 def get_df(file_name):
     """
-    Read and concatenate daily files, perform data quality check, and extract the date from the file path.
+    Read daily file, perform data quality check, and extract the date from the file path.
 
     Parameters:
-        list_file_name (list): A list of file paths.
+      file_name : A file path.
 
     Returns:
-        tuple: A tuple containing the concatenated DataFrame and the extracted date from the file path.
+        tuple: A tuple containing the  DataFrame and the extracted date from the file path.
     """
 
-    # Create an empty list to store the DataFrame
+   
 
-    # Iterate over each file name in the list
     
-        # Read the daily file into a DataFrame and append it to the list
+        # Read the daily file into a DataFrame 
     df=daily_file(
                 file_name,
                 "|",
@@ -109,7 +106,6 @@ def get_df(file_name):
             )
         
 
-    # Concatenate the list of DataFrames into a single DataFrame
 
 
     # Perform a data quality check on the DataFrame
@@ -201,10 +197,10 @@ def save_file(top_50, output_folder, grouping_col, date):
 
 def main_transform(file_name, output_folder):
     """
-    Perform the main transformation process on a list of files and save the results.
+    Perform the main transformation process on a file and save the results.
 
     Parameters:
-        list_file_name (list): A list of file paths.
+       file_name : A file path.
         output_folder (str): The path to the output folder.
 
     Returns:
